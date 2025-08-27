@@ -10,6 +10,8 @@ import requests as r
 #from cotizador import calc
 sheet_name = 'Hoja1'
 excel_file_path = ""
+#Maximo de hectareas
+MAX_H_VALUE = 5000
 
 class cotizador(toga.App):
     def startup(self):
@@ -94,14 +96,20 @@ class cotizador(toga.App):
                         self.result.text = "Introduzca valores mayores a 0"
                         self.redraw()
                         raise ValueError("No hay valor")
+                        """ 
                     elif x == ['100+']:
                         if h>100:
                             col_index = column
                             return col_index
-                        elif h<=0:
-                            self.result.text = "Los valores de entrada deben ser mayores a 0"
-                            self.redraw()
-                            raise ValueError("El valor debe ser mayor a cero")
+                        """
+                    elif h<=0:
+                        self.result.text = "Los valores de entrada deben ser mayores a 0"
+                        self.redraw()
+                        raise ValueError("El valor debe ser mayor a cero")
+                    elif h> MAX_H_VALUE:
+                        self.result.text = "Las hectáreas deben ser menores a " + str(MAX_H_VALUE)
+                        self.redraw()
+
                     elif h>=int(x[0]) and h<=int(x[1]):
                         col_index = column
                         return col_index
@@ -134,7 +142,7 @@ class cotizador(toga.App):
             print(f"Hello, {self.area.value}")
             
             print("Total = $%s" %total)
-            self.result.text = "Total = " + str(total)
+            self.result.text = "\nPrecio por ha = $" + str(price_per_hectarea) + "\n\nTotal = $" + str(total)
             self.redraw()
             
             
