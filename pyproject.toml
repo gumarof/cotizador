@@ -2,17 +2,18 @@
 [tool.briefcase]
 project_name = "cotizador"
 bundle = "com.example"
-version = "0.0.1"
+version = "1.0.0"
 url = "http://facebook.com/fumigacionyfertilizacion"
 license.file = "LICENSE"
-author = "gumarof"
+author = "GMGX"
 author_email = "gumarofuentes@hotmail.com"
 
 [tool.briefcase.app.cotizador]
 formal_name = "cotizador"
-description = "Cotizador para fumigacion con dron"
-long_description = """More details about the app should go here.
-"""
+description = "Cotizador para fumigacion con dron. Fumigación y Fertilización con Dron de Sonora. 644 408 5448. dronessonora@outlook.com"
+long_description = "Fumigación y Fertilización con Dron de Sonora. 644 408 5448. dronessonora@outlook.com"
+icon = "icons/cotizador"
+
 sources = [
     "src/cotizador",
 ]
