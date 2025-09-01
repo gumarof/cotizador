@@ -25,6 +25,13 @@ class cotizador(toga.App):
             "Litros/ha: ",
             margin=(0, 5),
         )
+        self.image = toga.Image(self.app.paths.app / "resources/tarjeta.png")
+        image_view = toga.ImageView(self.image, style=Pack(flex=True))
+    
+        self.image_box = toga.Box(children=[image_view,], style=Pack(direction=COLUMN, flex=True))
+        
+        
+
         self.area = toga.NumberInput(flex=1,)
         self.amount = toga.NumberInput(flex=1)
         self.result = toga.Label("") 
@@ -49,6 +56,7 @@ class cotizador(toga.App):
         main_box.add(self.input_box)
         main_box.add(button)
         main_box.add(self.output_box)
+        main_box.add(self.image_box)
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
@@ -59,6 +67,7 @@ class cotizador(toga.App):
             global excel_file_path
             excel_file_path = self.app.paths.data / 'Tabulador Fumigacion con Dron.xlsx'
             response = r.get(url)
+            #print(self.app.paths.app / "resources/tarjeta.png")
 
             if response.status_code == 200:
                 self.conn_status.text =""
