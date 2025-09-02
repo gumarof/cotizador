@@ -1,6 +1,6 @@
 # This project was generated with 0.3.24 using template: https://github.com/beeware/briefcase-template @ v0.3.24
 [tool.briefcase]
-project_name = "cotizador"
+project_name = "Cotizador"
 bundle = "com.example"
 version = "1.0.0"
 url = "http://facebook.com/fumigacionyfertilizacion"
@@ -9,7 +9,7 @@ author = "GMGX"
 author_email = "gumarofuentes@hotmail.com"
 
 [tool.briefcase.app.cotizador]
-formal_name = "cotizador"
+formal_name = "Cotizador"
 description = "Cotizador para fumigacion con dron. Fumigación y Fertilización con Dron de Sonora. 644 408 5448. dronessonora@outlook.com"
 long_description = "Fumigación y Fertilización con Dron de Sonora. 644 408 5448. dronessonora@outlook.com"
 icon = "icons/cotizador"
@@ -38,7 +38,7 @@ requires = [
 requires = [
     "toga-gtk~=0.5.0",
     # PyGObject 3.52.1 enforces a requirement on libgirepository-2.0-dev. This library
-    # isn't available on Debian 12/Ubuntu 22.04. If you don't need to support those (or
+    # isn't available on Debian 12/Ubuntu  22.04. If you don't need to support those (or
     # older) releases, you can remove this version pin. See beeware/toga#3143.
     "pygobject < 3.52.1",
 ]
