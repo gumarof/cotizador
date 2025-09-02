@@ -17,4 +17,5 @@
 .pyc
 # Build products
 /build
-app/build
+#app/build
+*.json
