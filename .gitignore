@@ -33,7 +33,11 @@ Temporary Items
 # Distribution / packaging
 .Python
 env/
-#build/
+#build
+intermediates/
+tmp/
+python/
+generated/
 develop-eggs/
 dist/
 downloads/
