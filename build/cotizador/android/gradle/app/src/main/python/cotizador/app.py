@@ -7,14 +7,41 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 import pandas as pd
 import requests as r
+import asyncio
 #from cotizador import calc
 sheet_name = 'Hoja1'
 excel_file_path = ""
+NO_TABULADOR = "Tabulador no encontrado. Conéctese a internet"
 #Maximo de hectareas
 MAX_H_VALUE = 5000
 
 class cotizador(toga.App):
+
+    def getData(self):
+            try:
+                print(11111)
+                url=('https://1drv.ms/x/c/9f79dc42cb78dc5e/EVQwX_3G4ZFHjb_htK6vv8QBMdvrze3LRweEYoZmHBZwog?download=1')
+                global excel_file_path
+                excel_file_path = self.app.paths.data / 'Tabulador Fumigacion con Dron.xlsx'
+                response = r.get(url)
+                #print(self.app.paths.app / "resources/tarjeta.png")
+
+                if response.status_code == 200:
+                    self.conn_status.text =""
+                    # Data retrieved successfully
+                    # For binary files like Excel, you would save content to a file
+                    with open(excel_file_path, "wb") as f:
+                        f.write(response.content)
+                else:
+                    print(f"Error: Could not retrieve data. Status code: {response.status_code}")
+                
+            except Exception as e:
+                self.conn_status.text = "Tabulador no actualizado."
+                print("Tabulador no actualizado. Revise su conexión a internet %s" %e)
+                #print(self.app.paths.data)
+
     def startup(self):
+        print("startup*******")
         main_box = toga.Box(direction=COLUMN)
 
         self.area_label = toga.Label(
@@ -61,26 +88,11 @@ class cotizador(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
         self.main_window.show()
-
-        try:
-            url=('https://1drv.ms/x/c/9f79dc42cb78dc5e/EVQwX_3G4ZFHjb_htK6vv8QBMdvrze3LRweEYoZmHBZwog?download=1')
-            global excel_file_path
-            excel_file_path = self.app.paths.data / 'Tabulador Fumigacion con Dron.xlsx'
-            response = r.get(url)
-            #print(self.app.paths.app / "resources/tarjeta.png")
-
-            if response.status_code == 200:
-                self.conn_status.text =""
-                # Data retrieved successfully
-                # For binary files like Excel, you would save content to a file
-                with open(excel_file_path, "wb") as f:
-                    f.write(response.content)
-            else:
-                print(f"Error: Could not retrieve data. Status code: {response.status_code}")
-            
-        except Exception as e:
-            self.conn_status.text = "Tabulador no actualizado."
-            print("Tabulador no actualizado. Revise su conexión a internet %s" %e)
+        print("showwwwwwww")
+           
+    def on_running(self):
+        self.getData() 
+        print ("after GetData")    
 
     def redraw(self):
         self.input_box.add(self.area_label)
@@ -95,7 +107,9 @@ class cotizador(toga.App):
         try:
             h=(self.area.value)
             f=(self.amount.value)
-            df = pd.read_excel(excel_file_path, sheet_name, index_col=0, skiprows=11,  nrows=57, usecols='B:F')
+            if self.conn_status.text == NO_TABULADOR:
+                self.getData()
+            df = pd.read_excel(excel_file_path, sheet_name, index_col=0, skiprows=11,  nrows=57, usecols='B:G')
             
             # Busca índice de las hectáreas a fumigar
             def findColIndex():
@@ -153,12 +167,11 @@ class cotizador(toga.App):
             print("Total = $%s" %total)
             self.result.text = "\nPrecio por ha = $" + str(price_per_hectarea) + "\n\nTotal = $" + str(total)
             self.redraw()
-            
-            
-            
-            
+              
         except FileNotFoundError:
             print(f"Error: Excel file not found at {excel_file_path}")
+            self.conn_status.text = NO_TABULADOR
+
         except Exception as e:
             print(f"An error occurred: {e}")	
             
