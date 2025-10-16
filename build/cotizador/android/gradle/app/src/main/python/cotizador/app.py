@@ -10,6 +10,7 @@ import requests as r
 import asyncio
 #from cotizador import calc
 sheet_name = 'Hoja1'
+#columns = 'B:G'
 excel_file_path = ""
 NO_TABULADOR = "Tabulador no encontrado. Conéctese a internet"
 #Maximo de hectareas
@@ -109,9 +110,11 @@ class cotizador(toga.App):
             f=(self.amount.value)
             if self.conn_status.text == NO_TABULADOR:
                 self.getData()
-            df = pd.read_excel(excel_file_path, sheet_name, index_col=0, skiprows=11,  nrows=57, usecols='B:G')
-            
-            # Busca índice de las hectáreas a fumigar
+            df = pd.read_excel(excel_file_path, sheet_name, header=None)
+            columns = df.iloc[3, 11] 
+            print(columns)   
+            df = pd.read_excel(excel_file_path, sheet_name, index_col=0, skiprows=11,  nrows=57, usecols= columns)
+                    # Busca índice de las hectáreas a fumigar
             def findColIndex():
                 for column in df.columns:
                     x = column.split('-')
