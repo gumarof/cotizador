@@ -43,7 +43,7 @@ class cotizador(toga.App):
 
     def startup(self):
         print("startup*******")
-        main_box = toga.Box(direction=COLUMN)
+        self.main_box = toga.Box(direction=COLUMN)
 
         self.area_label = toga.Label(
             "Hectáreas: ",
@@ -54,9 +54,9 @@ class cotizador(toga.App):
             margin=(0, 5),
         )
         self.image = toga.Image(self.app.paths.app / "resources/tarjeta.png")
-        image_view = toga.ImageView(self.image, style=Pack(direction=COLUMN, height=200, flex=True))
+        self.image_view = toga.ImageView(self.image, style=Pack(direction=COLUMN, height=200, flex=True))
     
-        self.image_box = toga.Box(children=[image_view,], style=Pack(direction=COLUMN, flex=True))
+        self.image_box = toga.Box(children=[self.image_view,], style=Pack(direction=COLUMN, flex=True))
         
         
 
@@ -75,19 +75,34 @@ class cotizador(toga.App):
         self.output_box.add(self.result)
         self.output_box.add(self.conn_status)
 
-        button = toga.Button(
+        self.button = toga.Button(
             "Calcula costo",
             on_press=self.calculate,
             margin=5,
         )
 
-        main_box.add(self.input_box)
-        main_box.add(button)
-        main_box.add(self.output_box)
-        main_box.add(self.image_box)
+        self.button_2 = toga.Button(
+            "DOSIFICADOR",
+            on_press=self.dosificador,
+            margin=5,
+        )
+
+        self.button_3 = toga.Button("COTIZADOR",
+                               on_press=self.cotizador,
+                               margin=5,)
+        
+        self.button_4 = toga.Button("Calcula la dosis por mezclador",
+                               on_press=self.calculaDosis,
+                               margin=5,)
+
+        self.main_box.add(self.input_box)
+        self.main_box.add(self.button)
+        self.main_box.add(self.output_box)
+        self.main_box.add(self.image_box)
+        self.main_box.add(self.button_2)
 
         self.main_window = toga.MainWindow(title=self.formal_name)
-        self.main_window.content = main_box
+        self.main_window.content = self.main_box
         self.main_window.show()
         print("showwwwwwww")
            
@@ -95,8 +110,61 @@ class cotizador(toga.App):
         self.getData() 
         print ("after GetData")    
 
-    def redraw(self):
+    def cotizador(self, widget):
+        self.main_box.remove(self.input_box, self.output_box, self.image_box, self.button_3, self.button_4)
+
+        self.image_box = toga.Box(children=[self.image_view,], style=Pack(direction=COLUMN, flex=True))
+        
+        
+
+        self.area = toga.NumberInput(flex=1,)
+        self.amount = toga.NumberInput(flex=1)
+        self.result = toga.Label("") 
+        self.conn_status = toga.Label("", style=Pack(color="red")) 
+
+        self.input_box = toga.Box(direction=COLUMN, margin=5)
         self.input_box.add(self.area_label)
+        self.input_box.add(self.area)
+        self.input_box.add(self.amount_label)
+        self.input_box.add(self.amount)
+
+        self.output_box = toga.Box(direction=COLUMN, margin=5)
+        self.output_box.add(self.result)
+        self.output_box.add(self.conn_status)
+
+        self.button = toga.Button(
+            "Calcula costo",
+            on_press=self.calculate,
+            margin=5,
+        )
+
+        self.button_2 = toga.Button(
+            "DOSIFICADOR",
+            on_press=self.dosificador,
+            margin=5,
+        )
+
+        self.button_3 = toga.Button("COTIZADOR",
+                               on_press=self.cotizador,
+                               margin=5,)
+        
+        self.button_4 = toga.Button("Calcula la dosis por mezclador",
+                               on_press=self.calculaDosis,
+                               margin=5,)
+
+        self.main_box.add(self.input_box)
+        self.main_box.add(self.button)
+        self.main_box.add(self.output_box)
+        self.main_box.add(self.image_box)
+        self.main_box.add(self.button_2)
+
+        #self.main_window = toga.MainWindow(title=self.formal_name)
+        #self.main_window.content = self.main_box
+        #self.main_window.show()
+        #print("showwwwwwww")
+
+    def redraw(self):
+      
         self.input_box.add(self.area)
         self.input_box.add(self.amount_label)
         self.input_box.add(self.amount)
@@ -177,9 +245,63 @@ class cotizador(toga.App):
             self.conn_status.text = NO_TABULADOR
 
         except Exception as e:
-            print(f"An error occurred: {e}")	
-            
-                
+            print(f"An error occurred: {e}")
+
+    def dosificador(self, widget):
+        self.main_box.remove(self.input_box, self.button, self.output_box, self.image_box, self.button_2, self.button_4)
+        self.amount_label = toga.Label(
+            "Litros/ha: ",
+            margin=(0, 5),
+        )
+        self.litrosMezclador = toga.NumberInput(flex=1,)
+        self.litrosporhectarea = toga.NumberInput(flex=1)
+        self.litrosmezclaporhectarea = toga.NumberInput(flex=1)
+        self.dosispormezclador = toga.Label("") 
+
+        self.dosis_label = toga.Label(
+            "Producto por hectárea (Litros): ",
+            margin=(0, 5),
+        )
+        self.litrosdelmezclador_label = toga.Label(
+            "Capacidad del mezcador (Litros): ",
+            margin=(0, 5),
+        )
+        self.dosispormezclador_label = toga.Label(
+            "",
+            margin=(0, 5),
+        )
+        self.litrosmezclaporhectara_label = toga.Label(
+            "Mezcla por hectárea (Litros): ",
+            margin=(0, 5),
+        )
+
+        self.input_box = toga.Box(direction=COLUMN, margin=5)
+        self.input_box.add(self.dosis_label)
+        self.input_box.add(self.litrosporhectarea)
+        self.input_box.add(self.litrosdelmezclador_label)
+        self.input_box.add(self.litrosMezclador)
+        self.input_box.add(self.litrosmezclaporhectara_label)
+        self.input_box.add(self.litrosmezclaporhectarea)
+
+        self.output_box = toga.Box(direction=COLUMN, margin=5)
+        self.output_box.add(self.dosispormezclador_label)
+        
+
+        self.main_box.add(self.input_box)
+        self.main_box.add(self.button_4)
+        self.main_box.add(self.output_box)
+        self.main_box.add(self.image_box)
+        self.main_box.add(self.button_3)
+
+        #self.main_window = toga.MainWindow(title=self.formal_name)
+        #self.main_window.content = self.main_box
+        #self.main_window.show()
+
+    def calculaDosis(self, widget):
+        self.hectareaspormezclador = self.litrosMezclador.value/self.litrosmezclaporhectarea.value
+        print(f"Hectareas por mezclador = {self.hectareaspormezclador}")
+        self.dosispormezclador = (self.litrosporhectarea.value)* (self.hectareaspormezclador)
+        self.dosispormezclador_label.text = f"Dosis por mezclador: {round(self.dosispormezclador, 2)} Litros"        
 
 
 def main():

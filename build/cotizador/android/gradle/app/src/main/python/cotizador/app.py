@@ -111,7 +111,8 @@ class cotizador(toga.App):
             if self.conn_status.text == NO_TABULADOR:
                 self.getData()
             df = pd.read_excel(excel_file_path, sheet_name, header=None)
-            columns = df.iloc[3, 11] 
+            # Reference to value that defines the cells to select of tabulator
+            columns = df.iloc[8, 0] 
             print(columns)   
             df = pd.read_excel(excel_file_path, sheet_name, index_col=0, skiprows=11,  nrows=57, usecols= columns)
                     # Busca índice de las hectáreas a fumigar
