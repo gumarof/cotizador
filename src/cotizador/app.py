@@ -253,9 +253,9 @@ class cotizador(toga.App):
             "Litros/ha: ",
             margin=(0, 5),
         )
-        self.litrosMezclador = toga.NumberInput(flex=1,)
-        self.litrosporhectarea = toga.NumberInput(flex=1)
-        self.litrosmezclaporhectarea = toga.NumberInput(flex=1)
+        self.litrosMezclador = toga.NumberInput(flex=1, step=0.1)
+        self.litrosporhectarea = toga.NumberInput(flex=1, step=0.1)
+        self.litrosmezclaporhectarea = toga.NumberInput(flex=1, step=0.1)
         self.dosispormezclador = toga.Label("") 
 
         self.dosis_label = toga.Label(
@@ -298,6 +298,8 @@ class cotizador(toga.App):
         #self.main_window.show()
 
     def calculaDosis(self, widget):
+        print(f"Litros del mezclador {self.litrosMezclador.value}")
+        print(f"Litros de mezcla por hectarea {self.litrosmezclaporhectarea.value}")
         self.hectareaspormezclador = self.litrosMezclador.value/self.litrosmezclaporhectarea.value
         print(f"Hectareas por mezclador = {self.hectareaspormezclador}")
         self.dosispormezclador = (self.litrosporhectarea.value)* (self.hectareaspormezclador)
