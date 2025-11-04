@@ -103,12 +103,12 @@ class cotizador(toga.App):
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = self.main_box
+        self.getData() 
+        print ("after GetData")  
         self.main_window.show()
         print("showwwwwwww")
            
-    def on_running(self):
-        self.getData() 
-        print ("after GetData")    
+
 
     def cotizador(self, widget):
         self.main_box.remove(self.input_box, self.output_box, self.image_box, self.button_3, self.button_4)
