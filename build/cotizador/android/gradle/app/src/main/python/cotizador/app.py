@@ -254,7 +254,7 @@ class cotizador(toga.App):
             margin=(0, 5),
         )
         self.litrosMezclador = toga.NumberInput(flex=1, step=0.1)
-        self.litrosporhectarea = toga.NumberInput(flex=1, step=0.1)
+        self.litrosporhectarea = toga.NumberInput(flex=1, step=0.001)
         self.litrosmezclaporhectarea = toga.NumberInput(flex=1, step=0.1)
         self.dosispormezclador = toga.Label("") 
 
